@@ -68,7 +68,9 @@ async function startServer() {
     );
     });
   } catch (error) {
-    logger.error(`Failed to connect to database: ${error.message}`);
+    logger.error(
+        `Failed to connect to database:\n${error.stack || error.message}`
+    );
     process.exit(1);
   }
 }
