@@ -31,3 +31,16 @@ output "eks_cluster_security_group_id" {
   description = "EKS cluster security group ID"
   value       = module.eks.cluster_security_group_id
 }
+
+
+
+# EKS Node Group Outputs
+output "eks_node_group_name" {
+  description = "EKS managed node group name"
+  value       = module.eks.node_group_name
+}
+
+output "eks_node_iam_role_arn" {
+  description = "EKS worker node IAM role ARN"
+  value       = module.eks.node_iam_role_arn
+}

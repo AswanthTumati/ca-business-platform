@@ -24,3 +24,19 @@ private_subnet_cidrs = [
 
 eks_cluster_name    = "ca-business-platform-dev"
 eks_cluster_version = "1.35"
+
+
+
+# EKS Worker Node Variables
+
+node_instance_types = [
+  "m7i-flex.large"
+]
+
+node_capacity_type = "ON_DEMAND"
+
+node_disk_size = 20
+
+node_desired_size = 1
+node_min_size     = 1
+node_max_size     = 2
