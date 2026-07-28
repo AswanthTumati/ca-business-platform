@@ -18,3 +18,9 @@ private_subnet_cidrs = [
   "10.0.11.0/24",
   "10.0.12.0/24"
 ]
+
+
+# EKS Cluster Variables
+
+eks_cluster_name    = "ca-business-platform-dev"
+eks_cluster_version = "1.35"
