@@ -106,13 +106,13 @@ resource "aws_iam_role_policy_attachment" "eks_ecr_read_only" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly"
 }
 
-/*
+
 # EKS CNI Policy Attachment
 resource "aws_iam_role_policy_attachment" "eks_cni_policy" {
   role = aws_iam_role.eks_node.name
 
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-}*/
+}
 
 
 # EKS Node Group
@@ -150,7 +150,7 @@ resource "aws_eks_node_group" "main" {
     depends_on = [
     aws_iam_role_policy_attachment.eks_worker_node_policy,
     aws_iam_role_policy_attachment.eks_ecr_read_only,
-   # aws_iam_role_policy_attachment.eks_cni_policy
+    aws_iam_role_policy_attachment.eks_cni_policy
 ]
   tags = {
     Name = "${var.project_name}-${var.environment}-node-group"
