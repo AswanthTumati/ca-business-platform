@@ -1,5 +1,3 @@
-
-
 services:
 
   postgres:
@@ -23,20 +21,19 @@ services:
       - ca-network
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"] 
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
 
 
-  backend:
+  backend-service:
 
     build:
       context: ./backend
       dockerfile: Dockerfile
 
     image: ${BACKEND_IMAGE}:${BACKEND_TAG}
-
 
     restart: unless-stopped
 
@@ -62,11 +59,10 @@ services:
 
     image: ${FRONTEND_IMAGE}:${FRONTEND_TAG}
 
-
     restart: unless-stopped
 
     depends_on:
-      - backend
+      - backend-service
 
     ports:
       - "8080:80"
@@ -76,11 +72,9 @@ services:
 
 
 volumes:
-
   postgres_data:
 
 
 networks:
-
   ca-network:
     driver: bridge

@@ -24,7 +24,7 @@ const pool = new Pool({
   password: config.database.password,
 
   ssl:
-    config.nodeEnv === "production"
+    config.database.ssl
       ? {
           rejectUnauthorized: false,
         }

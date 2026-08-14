@@ -76,3 +76,12 @@ variable "node_subnet_ids" {
   description = "Subnet IDs where EKS worker nodes are created"
   type        = list(string)
 }
+
+
+variable "aws_region" {
+  type = string
+}
+
+variable "vpc_id" {
+  type = string
+}

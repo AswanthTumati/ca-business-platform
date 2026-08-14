@@ -181,6 +181,74 @@ data "aws_iam_policy_document" "pod_identity_assume_role" {
 
 
 
+####################################################
+# AWS Load Balancer Controller IAM Policy
+####################################################
+
+resource "aws_iam_policy" "aws_load_balancer_controller" {
+
+  name = "${var.project_name}-${var.environment}-aws-load-balancer-controller-policy"
+
+  description = "AWS Load Balancer Controller IAM Policy"
+
+  policy = file("${path.root}/../../policies/aws-load-balancer-controller-policy.json")
+
+  tags = {
+    Name = "${var.project_name}-${var.environment}-aws-load-balancer-controller-policy"
+  }
+}
+
+
+
+####################################################
+# AWS Load Balancer Controller Role
+####################################################
+
+resource "aws_iam_role" "aws_load_balancer_controller" {
+
+  name = "${var.project_name}-${var.environment}-aws-load-balancer-controller-role"
+
+  assume_role_policy = data.aws_iam_policy_document.pod_identity_assume_role.json
+
+  tags = {
+    Name = "${var.project_name}-${var.environment}-aws-load-balancer-controller-role"
+  }
+}
+
+
+
+####################################################
+# Attach Load Balancer Controller Policy
+####################################################
+
+resource "aws_iam_role_policy_attachment" "aws_load_balancer_controller" {
+
+  role = aws_iam_role.aws_load_balancer_controller.name
+
+  policy_arn = aws_iam_policy.aws_load_balancer_controller.arn
+}
+
+
+
+####################################################
+# AWS Load Balancer Controller Pod Identity
+####################################################
+
+resource "aws_eks_pod_identity_association" "aws_load_balancer_controller" {
+
+  cluster_name = aws_eks_cluster.main.name
+
+  namespace = "kube-system"
+
+  service_account = "aws-load-balancer-controller"
+
+  role_arn = aws_iam_role.aws_load_balancer_controller.arn
+
+  depends_on = [
+    aws_iam_role_policy_attachment.aws_load_balancer_controller
+  ]
+}
+
 # IAM role for the VPC CNI
 resource "aws_iam_role" "vpc_cni" {
   name = "${var.project_name}-${var.environment}-vpc-cni-role"

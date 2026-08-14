@@ -26,6 +26,9 @@ module "eks" {
   cluster_name    = var.eks_cluster_name
   cluster_version = var.eks_cluster_version
 
+  aws_region = var.aws_region
+  vpc_id     = module.vpc.vpc_id
+
   subnet_ids = module.vpc.private_subnet_ids
 
   endpoint_public_access  = true
