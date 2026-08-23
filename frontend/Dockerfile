@@ -10,7 +10,10 @@ RUN npm ci
 
 COPY . .
 
-COPY .env.docker .env.production
+#COPY .env.docker .env.production
+
+ARG VITE_API_BASE_URL=/api/v1
+ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
 RUN npm run build
 
