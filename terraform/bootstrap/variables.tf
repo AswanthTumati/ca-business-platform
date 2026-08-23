@@ -1,6 +1,6 @@
 variable "aws_region" {
 
-  description = "AWS region used for Terraform state infrastructure"
+  description = "AWS region for Terraform bootstrap resources"
 
   type = string
 
@@ -11,7 +11,7 @@ variable "aws_region" {
 
 variable "state_bucket_name" {
 
-  description = "Globally unique S3 bucket name for Terraform remote state"
+  description = "S3 bucket used for Terraform remote state"
 
   type = string
 

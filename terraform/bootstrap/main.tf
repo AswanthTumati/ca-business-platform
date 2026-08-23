@@ -1,3 +1,6 @@
+############################################################
+# Terraform State S3 Bucket
+############################################################
 resource "aws_s3_bucket" "terraform_state" {
 
   bucket = var.state_bucket_name
@@ -9,6 +12,42 @@ resource "aws_s3_bucket" "terraform_state" {
   }
 
 }
+
+
+############################################################
+# S3 Bucket Ownership
+############################################################
+
+resource "aws_s3_bucket_ownership_controls" "terraform_state" {
+
+  bucket = aws_s3_bucket.terraform_state.id
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
+
+
+############################################################
+# Block Public Access
+############################################################
+
+resource "aws_s3_bucket_public_access_block" "terraform_state" {
+
+  bucket = aws_s3_bucket.terraform_state.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+
+
+############################################################
+# Bucket Versioning
+############################################################
 
 resource "aws_s3_bucket_versioning" "terraform_state" {
 
@@ -23,6 +62,11 @@ resource "aws_s3_bucket_versioning" "terraform_state" {
 }
 
 
+
+############################################################
+# Server-Side Encryption
+############################################################
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state" {
 
   bucket = aws_s3_bucket.terraform_state.id
@@ -35,18 +79,10 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_state" 
 
     }
 
+    bucket_key_enabled = true
+
   }
 
 }
 
 
-resource "aws_s3_bucket_public_access_block" "terraform_state" {
-
-  bucket = aws_s3_bucket.terraform_state.id
-
-  block_public_acls       = true
-  ignore_public_acls      = true
-  block_public_policy     = true
-  restrict_public_buckets = true
-
-}
